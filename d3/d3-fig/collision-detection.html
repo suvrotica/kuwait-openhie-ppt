@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<head>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
-</head>
+
 
 <body>
   <script src="js/d3.v4.min.js"></script>
   <script>
+    // Create a new link element
+var link = document.createElement('link');
+link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap';
+link.rel = 'stylesheet';
+
+// Append the link element to the head of the document
+document.head.appendChild(link);
+
     const width = window.innerWidth;
-    const height = Math.min(1500, window.innerHeight);
+    const height = Math.min(500, window.innerHeight);
 
     const diseases = [
   "Ischemic Heart Disease", "Stroke", "Hypertensive Heart Disease", "Diabetes Mellitus", 
@@ -128,24 +134,24 @@ const lines = svg.selectAll("line")
         .attr("x2", function(d) { 
             // Calculate the angle
             let angle = Math.atan2(d.y - height/2, d.x - width/2);
-            return d.x + Math.cos(angle) * (d.r + 100);  // 30 units away from the circle
+            return d.x + Math.cos(angle) * (d.r + 10);  // 30 units away from the circle
         })
         .attr("y2", function(d) { 
             // Calculate the angle
             let angle = Math.atan2(d.y - height/2, d.x - width/2);
-            return d.y + Math.sin(angle) * (d.r + 100);  // 30 units away from the circle
+            return d.y + Math.sin(angle) * (d.r + 10);  // 30 units away from the circle
         });
 
     svg.selectAll("text")
         .attr("dx", function(d) { 
             // Calculate the angle
             let angle = Math.atan2(d.y - height/2, d.x - width/2);
-            return d.x + Math.cos(angle) * (d.r + 140);  // 40 units away from the circle
+            return d.x + Math.cos(angle) * (d.r + 40);  // 40 units away from the circle
         })
         .attr("dy", function(d) { 
             // Calculate the angle
             let angle = Math.atan2(d.y - height/2, d.x - width/2);
-            return d.y + Math.sin(angle) * (d.r + 140);  // 40 units away from the circle
+            return d.y + Math.sin(angle) * (d.r + 40);  // 40 units away from the circle
         });
     svg.on("mousemove", function () {
       let p1 = d3.mouse(this);
@@ -154,7 +160,10 @@ const lines = svg.selectAll("line")
       force.alphaTarget(0.3).restart();
     });
   }
-    
+  svg.dispatch("mousemove", {
+    clientX: 0,
+    clientY: 0
+});
   
   
   function shuffleColor(n) {
