@@ -63,6 +63,9 @@
     />
     <!-- Fullscreen plugin -->
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/fullscreen/plugin.js"></script>
+
+    <!-- d3 -->
+    <script src="d3/reveald3.js"></script>
   </head>
   <body>
     <div class="reveal">
@@ -73,34 +76,107 @@
 			  # KHIE
 
 			  ## Kuwait Health Information Exchange
-			  Suvro Ghosh [LinkedIn](https://www.linkedin.com/in/suvro-ghosh-74642a72)
+			  ### Suvro Ghosh 
+			  Independent Healthcare Consultant
 			</textarea
           >
         </section>
 
         <section>
-          <!-- .slide: data-fullscreen="true"  -->
-
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/fmrgAjJXHUU?si=MLyOPRdN04q24KKR"
-            title="YouTube video player"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-        </section>
-        <section>
-          <video width="320" height="240" controls>
+          <video width="1280" height="900" controls>
             <source src="vid.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </section>
+        <section>
+          <pre>
+				<code class="language-plantuml">
+					@startuml
+
+					package "OpenHIE Architecture" {
+					
+					  package "Terminology Service (TS)" {
+						[ValueSets Database]
+						[Concept Maps Database]
+						[Care Services Registry]
+						[Location Resource]
+						[Practitioner Resource]
+						[PractitionerRole Resource]
+					  }
+					
+					  cloud "Point-of-Service (PoS)" {
+						[Query for Value Sets]
+						[Query for Concept Maps]
+					  }
+					
+					  [Query for Value Sets] --> [ValueSets Database] : "Retrieve ValueSets"
+					  [Query for Concept Maps] --> [Concept Maps Database] : "Retrieve Concept Maps"
+					  [Care Services Registry] --> [Location Resource]
+					  [Care Services Registry] --> [Practitioner Resource]
+					  [Care Services Registry] --> [PractitionerRole Resource]
+					
+					  note "Assumptions & Prerequisites:\n- Required ValueSets & Concept Maps are preloaded into TS.\n- PoS or other HIE components query TS for data." as Note1
+					  Note1 ..> [ValueSets Database]
+					  Note1 ..> [Concept Maps Database]
+					
+					}
+					
+					@enduml
+					
+				</code>
+				</pre>
+        </section>
+        <section>
+          <pre>
+				<code class="language-plantuml">
+					@startuml
+
+					package "OpenHIE Architecture" {
+
+					package "Terminology Service (TS)" {
+						[ValueSets Database]
+						[Concept Maps Database]
+						[Care Services Registry]
+						[Location Resource]
+						[Practitioner Resource]
+						[PractitionerRole Resource]
+					}
+
+					cloud "Point-of-Service (PoS)" {
+						[Query for Value Sets]
+						[Query for Concept Maps]
+					}
+
+					[Query for Value Sets] --> [ValueSets Database] : "Retrieve ValueSets"
+					[Query for Concept Maps] --> [Concept Maps Database] : "Retrieve Concept Maps"
+
+					note "ValueSet:\n- Represents a set of codes from one or more code systems.\n- Used to specify consistent codes for a context.\n- Codes can come from terminologies like SNOMED CT, ICD-10, etc.\n- Used in clinical decision support, data analytics, etc.\n- Ensures data consistency and interoperability." as Note1
+					Note1 ..> [ValueSets Database]
+
+					note "ConceptMap in TS:\n- Stored as FHIR Resource.\n- Used for specific use-cases.\n- External systems & HIE components can query TS.\n- Example Query: 'What Concept Maps target SNOMED CT?'\n- Workflow is mature & supported by HL7 FHIR v3.0+.\n- Implements IHE IT Infrastructure Technical Framework." as Note2
+					Note2 ..> [Concept Maps Database]
+
+					}
+
+					footer "Suvro Ghosh October 2023 For Kuwait MoH"
+
+					@enduml
+
+
+				</code>
+			</pre>
+        </section>
+
+        <section
+          class="fig-container"
+          data-file="d3/d3-fig/collision-detection.html"
+        ></section>
       </div>
     </div>
 
     <script>
       Reveal.initialize({
+        dependencies: [{ src: "//cdn.jsdelivr.net/npm/reveal-plantuml" }],
         width: 1280,
         height: 900,
         // add other configuration parameters
@@ -135,6 +211,7 @@
         // ...
 
         plugins: [
+          Reveald3,
           RevealMarkdown,
           RevealMenu,
           RevealChalkboard,
