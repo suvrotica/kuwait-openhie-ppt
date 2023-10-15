@@ -31,8 +31,28 @@
     />
 
     <!-- Add other plugins and additional style sheets -->
-    <script src="chalkboard/plugin.js"></script>
-    <link rel="stylesheet" href="chalkboard/style.css" />
+    <!-- Font awesome is required for the chalkboard plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Custom controls plugin is used to for opening and closing annotation modes. -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/customcontrols/plugin.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/customcontrols/style.css"
+    />
+    <!-- Chalkboard plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chalkboard/plugin.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chalkboard/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js-plugins/menu/font-awesome/css/fontawesome.css"
+    />
   </head>
   <body>
     <div class="reveal">
@@ -42,16 +62,35 @@
           data-separator="^\n===\n$"
           data-separator-vertical="^\n---\n$"
         >
-          # Reveal.js playground --- This is a minimal slide deck to be used as
-          a playground for creating more advanced presentations. === ## Plugins
-          The only plugins added to this presentations are - the [`markdown`
-          plugin](https://revealjs.com/markdown/) and - the [`menu`
-          plugin](https://github.com/denehyg/reveal.js-menu). === ## The end
+          # Kuwait HIE Suvro Ghosh
         </section>
       </div>
     </div>
 
     <script>
+      Reveal.initialize({
+        customcontrols: {
+          controls: [
+            {
+              icon: '<i class="fa fa-pen-square"></i>',
+              title: "Toggle chalkboard (B)",
+              action: "RevealChalkboard.toggleChalkboard();",
+            },
+            {
+              icon: '<i class="fa fa-pen"></i>',
+              title: "Toggle notes canvas (C)",
+              action: "RevealChalkboard.toggleNotesCanvas();",
+            },
+          ],
+        },
+        chalkboard: {
+          // add configuration here
+        },
+        // ...
+        plugins: [RevealChalkboard, RevealCustomControls],
+        // ...
+      });
+
       Reveal.initialize({
         width: 1280,
         height: 900,
@@ -67,10 +106,30 @@
         // add other plugin configurations
         // ...
         // load plugins
+        customcontrols: {
+          controls: [
+            {
+              icon: '<i class="fa fa-pen-square"></i>',
+              title: "Toggle chalkboard (B)",
+              action: "RevealChalkboard.toggleChalkboard();",
+            },
+            {
+              icon: '<i class="fa fa-pen"></i>',
+              title: "Toggle notes canvas (C)",
+              action: "RevealChalkboard.toggleNotesCanvas();",
+            },
+          ],
+        },
+        chalkboard: {
+          // add configuration here
+        },
+        // ...
+
         plugins: [
           RevealMarkdown,
           RevealMenu,
           RevealChalkboard,
+          RevealCustomControls,
           // add other plugins
           // ...
         ],
