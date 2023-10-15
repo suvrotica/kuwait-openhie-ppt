@@ -28,7 +28,8 @@
     />
 
     <!-- Native plugins of reveal.js -->
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/markdown/markdown.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/markdown/markdown.js"></script>
 
     <!-- Menu plugin -->
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
@@ -66,13 +67,17 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section
-          data-markdown
-          data-separator="^\n===\n$"
-          data-separator-vertical="^\n---\n$"
-        >
-          # Kuwait HIE Suvro Ghosh
+        <section data-markdown>
+          <textarea title="ta" data-template>
+			
+			  # KHIE
+
+			  ## Kuwait Health Information Exchange
+			  Suvro Ghosh [LinkedIn](https://www.linkedin.com/in/suvro-ghosh-74642a72)
+			</textarea
+          >
         </section>
+
         <section>
           <!-- .slide: data-fullscreen="true"  -->
 
@@ -95,29 +100,6 @@
     </div>
 
     <script>
-      Reveal.initialize({
-        customcontrols: {
-          controls: [
-            {
-              icon: '<i class="fa fa-pen-square"></i>',
-              title: "Toggle chalkboard (B)",
-              action: "RevealChalkboard.toggleChalkboard();",
-            },
-            {
-              icon: '<i class="fa fa-pen"></i>',
-              title: "Toggle notes canvas (C)",
-              action: "RevealChalkboard.toggleNotesCanvas();",
-            },
-          ],
-        },
-        chalkboard: {
-          // add configuration here
-        },
-        // ...
-        plugins: [RevealChalkboard, RevealCustomControls],
-        // ...
-      });
-
       Reveal.initialize({
         width: 1280,
         height: 900,
