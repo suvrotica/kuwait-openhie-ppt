@@ -276,25 +276,56 @@
         });
       }
 
+      let isDragging = false;
+      let startPosition = null;
+
+      function handleStart(event) {
+        isDragging = false;
+
+        if (event.type === "touchstart") {
+          startPosition = [event.touches[0].clientX, event.touches[0].clientY];
+        } else {
+          startPosition = d3.mouse(this);
+        }
+
+        root.fx = startPosition[0];
+        root.fy = startPosition[1];
+      }
+
       function handleMove(event) {
         event.preventDefault();
-        let p1;
+        isDragging = true;
+
+        let currentPosition;
         if (event.type === "touchmove") {
-          p1 = [event.touches[0].clientX, event.touches[0].clientY];
+          currentPosition = [
+            event.touches[0].clientX,
+            event.touches[0].clientY,
+          ];
         } else {
-          p1 = d3.mouse(this);
+          currentPosition = d3.mouse(this);
         }
-        root.fx = p1[0];
-        root.fy = p1[1];
+
+        root.fx = currentPosition[0];
+        root.fy = currentPosition[1];
         force.alphaTarget(0.3).restart();
       }
 
-      svg.dispatch(handleMove, {
-        clientX: 0,
-        clientY: 0,
-      });
+      function handleEnd(event) {
+        if (!isDragging && startPosition) {
+          // Handle tap or click action here
+        }
+        isDragging = false;
+        startPosition = null;
+      }
+
+      svg.on("mousedown", handleStart);
       svg.on("mousemove", handleMove);
+      svg.on("mouseup", handleEnd);
+
+      svg.on("touchstart", handleStart);
       svg.on("touchmove", handleMove);
+      svg.on("touchend", handleEnd);
 
       function shuffleColor(n) {
         d3.selectAll("circle")
