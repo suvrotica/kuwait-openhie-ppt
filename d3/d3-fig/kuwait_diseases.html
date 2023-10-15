@@ -280,8 +280,6 @@
         });
       }
 
-      var inertia = d3.geoInertiaDrag(svg, ticked);
-
       function shuffleColor(n) {
         d3.selectAll("circle")
           .transition()
@@ -324,6 +322,13 @@
           index: 1,
         },
       ];
+    </script>
+    <!-- d3.inertia starts here -->
+    <!-- <script src="https://cdn.jsdelivr.net/combine/npm/versor,npm/d3-inertia"></script> -->
+    <script src="js/versor-inertia.min.js"></script>
+
+    <script>
+      var inertia = d3.geoInertiaDrag(svg, ticked);
     </script>
   </body>
 </html>
