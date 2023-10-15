@@ -1,222 +1,342 @@
 <!DOCTYPE html>
 <html>
-<head>
- <style>
-  body, html {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
+  <head>
+    <style>
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
 
-svg {
-    display: block;
-    width: 100%;
-    height: auto;
-}
- </style>
-</head>
+      svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/d3.v4.min.js"></script>
+    <script>
+      // Create a new link element
+      var link = document.createElement("link");
+      link.href =
+        "https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap";
+      link.rel = "stylesheet";
 
-<body>
- <script>
-  // Create a new link element
-var link = document.createElement('link');
-link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap';
-link.rel = 'stylesheet';
-// Append the link element to the head of the document
-document.head.appendChild(link);
-const width = window.innerWidth;
-const height = Math.min(500, window.innerHeight);
-const diseases = [
-"Ischemic Heart Disease", "Stroke", "Hypertensive Heart Disease", "Diabetes Mellitus",
-"Chronic Kidney Disease", "Lower Respiratory Infections", "Liver Cancer", "Colon and Rectum Cancer",
-"Stomach Cancer", "Breast Cancer", "Lung Cancer", "Prostate Cancer", "Pancreatic Cancer",
-"Leukemia", "Ovarian Cancer", "Bladder Cancer", "Thyroid Cancer", "Cervical Cancer",
-"Esophageal Cancer", "Lymphomas", "Asthma", "COPD", "Tuberculosis", "Malaria",
-"Dengue Fever", "Hepatitis B", "Hepatitis C", "HIV/AIDS", "Influenza", "Measles",
-"Meningitis", "Pneumonia", "Rabies", "Typhoid Fever", "Cholera", "Eczema",
-"Rheumatoid Arthritis", "Osteoarthritis", "Peptic Ulcer Disease", "Gallbladder and Biliary Diseases",
-"Gout", "Liver Cirrhosis", "Osteoporosis", "Schizophrenia", "Bipolar Disorder", "Epilepsy",
-"Alzheimer's Disease", "Parkinson's Disease", "Depression", "Anxiety Disorders", "Autism",
-"Attention Deficit Hyperactivity Disorder", "Obsessive-Compulsive Disorder", "Post-Traumatic Stress Disorder",
-"Eating Disorders", "Addiction Disorders", "Sleep Disorders", "Thalassemia", "Hemophilia",
-"Sickle Cell Anemia", "Cystic Fibrosis", "Muscular Dystrophy", "Psoriasis", "Vitiligo",
-"Acne", "Rosacea", "Alopecia Areata", "Varicose Veins", "Cataract", "Glaucoma",
-"Macular Degeneration", "Diabetic Retinopathy", "Conjunctivitis", "Ear Infections", "Sinusitis",
-"Tonsillitis", "Bronchitis", "Pulmonary Embolism", "Deep Vein Thrombosis", "Anemia",
-"Hemorrhoids", "Irritable Bowel Syndrome", "Crohn's Disease", "Ulcerative Colitis", "Gastritis",
-"Gastroenteritis", "Hepatitis A", "Hepatitis E", "Polio", "Yellow Fever", "Zika Virus",
-"West Nile Virus", "Chikungunya Virus", "Middle East Respiratory Syndrome (MERS)", "Severe Acute Respiratory Syndrome (SARS)"
-];
-const nNodes = diseases.length;
-let nodes = d3.range(nNodes).map(function (i) {
-let radius = Math.random() * 12 + 4;
-return { r: radius, originalRadius: radius, name: diseases[i] };
-});
-const root = nodes[0];
-const color = d3.scaleOrdinal().range(d3.schemeCategory20);
-root.radius = 0;
-root.fixed = true;
-const forceX = d3.forceX(width / 2).strength(0.015);
-const forceY = d3.forceY(height / 2).strength(0.015);
-const force = d3
-.forceSimulation()
-.velocityDecay(0.2)
-.force("x", forceX)
-.force("y", forceY)
-.force(
-"collide",
-d3
-.forceCollide()
-.radius((d) => {
-if (d === root) {
-return Math.random() * 500 + 10;
-}
-return d.r + 0.5;
-})
-.iterations(5)
-)
-.nodes(nodes)
-.on("tick", ticked);
-const svg = d3.select("body").append("svg")
-.attr("width", "100%")
-.attr("height", "100%")
-.attr("viewBox", `0 0 ${width} ${height}`)
-.attr("preserveAspectRatio", "xMidYMid meet");
-window.addEventListener("resize", function() {
-// Get new width and height
-const newWidth = window.innerWidth;
-const newHeight = Math.min(500, window.innerHeight);
-// Update the SVG's viewbox
-svg.attr("viewBox", `0 0 ${newWidth} ${newHeight}`);
-});
-const nodeCircles = svg
-.selectAll("circle")
-.data(nodes.slice(1))
-.enter()
-.append("circle")
-.attr("r", function (d) {
-return d.r;
-})
-.style("fill", function (d, i) {
-return color(i % 3);
-});
-// Improved appearance and positioning of disease labels
-// Add lines connecting circles to their labels
-const textLabels = svg.selectAll("text")
-.data(nodes.slice(1))
-.enter().append("text")
-.attr("dx", function(d) { return d.x; })
-.attr("dy", function(d) { return d.y - d.r - 40; }) // 40 units above the circle
-.text(function(d) { return d.name; })
-.attr("font-size", "8px")
-.attr("font-weight", "100") // This will make the text thin
-.attr("fill", "#fff")
-.attr("text-anchor", "middle")
-.style("font-family", "Poppins"); // Apply the Poppins font
-// Add lines connecting circles to their labels
-const lines = svg.selectAll("line")
-.data(nodes.slice(1))
-.enter().append("line")
-.attr("stroke", "#fff")
-.attr("stroke-width", "0px");
-function ticked(e) {
-svg
-.selectAll("circle")
-.attr("cx", function (d) {
-return d.x;
-})
-.attr("cy", function (d) {
-return d.y;
-});
-// Update line positions
-lines
-.attr("x1", function(d) { return d.x; })
-.attr("y1", function(d) { return d.y; })
-.attr("x2", function(d) {
-// Calculate the angle
-let angle = Math.atan2(d.y - height/2, d.x - width/2);
-return d.x + Math.cos(angle) * (d.r + 10);  // 30 units away from the circle
-})
-.attr("y2", function(d) {
-// Calculate the angle
-let angle = Math.atan2(d.y - height/2, d.x - width/2);
-return d.y + Math.sin(angle) * (d.r + 10);  // 30 units away from the circle
-});
-svg.selectAll("text")
-.attr("dx", function(d) {
-// Calculate the angle
-let angle = Math.atan2(d.y - height/2, d.x - width/2);
-return d.x + Math.cos(angle) * (d.r + 40);  // 40 units away from the circle
-})
-.attr("dy", function(d) {
-// Calculate the angle
-let angle = Math.atan2(d.y - height/2, d.x - width/2);
-return d.y + Math.sin(angle) * (d.r + 40);  // 40 units away from the circle
-});
-svg.on("mousemove", function () {
-let p1 = d3.mouse(this);
-root.fx = p1[0];
-root.fy = p1[1];
-force.alphaTarget(0.3).restart();
-});
-}
-function handleMove(event) {
-let p1;
-if (event.type === "touchmove") {
-p1 = [event.touches[0].clientX, event.touches[0].clientY];
-} else {
-p1 = d3.mouse(this);
-}
-root.fx = p1[0];
-root.fy = p1[1];
-force.alphaTarget(0.3).restart();
-}
-svg.dispatch(handleMove, {
-clientX: 0,
-clientY: 0
-});
-svg.on("mousemove", handleMove);
-svg.on("touchmove", handleMove);
-function shuffleColor(n) {
-d3.selectAll("circle")
-.transition()
-.duration(400)
-.style("fill", (d, i) => color(i % n));
-}
-function shufleColorAndResize(n, min, max) {
-d3.selectAll("circle")
-.transition()
-.duration(400)
-.style("fill", (d, i) => color(i % n))
-.attr("r", (d) => d.originalRadius + Math.random() * (max - min));
-}
-function colorize(color) {
-d3.selectAll("circle")
-.transition()
-.duration(400)
-.style("fill", (d, i) => color);
-}
-let slideNode = Array.prototype.slice
-.call(window.parent.document.querySelectorAll("section"))
-.filter((d) => d.className.includes("present"))[0];
-let button = d3.select(slideNode).select("#recolorButton");
-button.on("click", function () {
-colorize("yellow");
-});
-var _transitions = [
-{
-transitionForward: () => shufleColorAndResize(10, 1, 1),
-transitionBackward: () => shufleColorAndResize(3, 1, 1),
-index: 0,
-},
-{
-transitionForward: () => shufleColorAndResize(10, 0.1, 6),
-index: 1,
-},
-];
- </script>
-</body>
+      // Append the link element to the head of the document
+      document.head.appendChild(link);
 
+      const width = window.innerWidth;
+      const height = Math.min(500, window.innerHeight);
+
+      const diseases = [
+        "Ischemic Heart Disease",
+        "Stroke",
+        "Hypertensive Heart Disease",
+        "Diabetes Mellitus",
+        "Chronic Kidney Disease",
+        "Lower Respiratory Infections",
+        "Liver Cancer",
+        "Colon and Rectum Cancer",
+        "Stomach Cancer",
+        "Breast Cancer",
+        "Lung Cancer",
+        "Prostate Cancer",
+        "Pancreatic Cancer",
+        "Leukemia",
+        "Ovarian Cancer",
+        "Bladder Cancer",
+        "Thyroid Cancer",
+        "Cervical Cancer",
+        "Esophageal Cancer",
+        "Lymphomas",
+        "Asthma",
+        "COPD",
+        "Tuberculosis",
+        "Malaria",
+        "Dengue Fever",
+        "Hepatitis B",
+        "Hepatitis C",
+        "HIV/AIDS",
+        "Influenza",
+        "Measles",
+        "Meningitis",
+        "Pneumonia",
+        "Rabies",
+        "Typhoid Fever",
+        "Cholera",
+        "Eczema",
+        "Rheumatoid Arthritis",
+        "Osteoarthritis",
+        "Peptic Ulcer Disease",
+        "Gallbladder and Biliary Diseases",
+        "Gout",
+        "Liver Cirrhosis",
+        "Osteoporosis",
+        "Schizophrenia",
+        "Bipolar Disorder",
+        "Epilepsy",
+        "Alzheimer's Disease",
+        "Parkinson's Disease",
+        "Depression",
+        "Anxiety Disorders",
+        "Autism",
+        "Attention Deficit Hyperactivity Disorder",
+        "Obsessive-Compulsive Disorder",
+        "Post-Traumatic Stress Disorder",
+        "Eating Disorders",
+        "Addiction Disorders",
+        "Sleep Disorders",
+        "Thalassemia",
+        "Hemophilia",
+        "Sickle Cell Anemia",
+        "Cystic Fibrosis",
+        "Muscular Dystrophy",
+        "Psoriasis",
+        "Vitiligo",
+        "Acne",
+        "Rosacea",
+        "Alopecia Areata",
+        "Varicose Veins",
+        "Cataract",
+        "Glaucoma",
+        "Macular Degeneration",
+        "Diabetic Retinopathy",
+        "Conjunctivitis",
+        "Ear Infections",
+        "Sinusitis",
+        "Tonsillitis",
+        "Bronchitis",
+        "Pulmonary Embolism",
+        "Deep Vein Thrombosis",
+        "Anemia",
+        "Hemorrhoids",
+        "Irritable Bowel Syndrome",
+        "Crohn's Disease",
+        "Ulcerative Colitis",
+        "Gastritis",
+        "Gastroenteritis",
+        "Hepatitis A",
+        "Hepatitis E",
+        "Polio",
+        "Yellow Fever",
+        "Zika Virus",
+        "West Nile Virus",
+        "Chikungunya Virus",
+        "Middle East Respiratory Syndrome (MERS)",
+        "Severe Acute Respiratory Syndrome (SARS)",
+      ];
+
+      const nNodes = diseases.length;
+      let nodes = d3.range(nNodes).map(function (i) {
+        let radius = Math.random() * 2 + 4;
+        return { r: radius, originalRadius: radius, name: diseases[i] };
+      });
+
+      const root = nodes[0];
+      const color = d3.scaleOrdinal().range(d3.schemeCategory20);
+
+      root.radius = 0;
+      root.fixed = true;
+
+      const forceX = d3.forceX(width / 2).strength(0.015);
+      const forceY = d3.forceY(height / 2).strength(0.015);
+
+      const force = d3
+        .forceSimulation()
+        .velocityDecay(0.2)
+        .force("x", forceX)
+        .force("y", forceY)
+        .force(
+          "collide",
+          d3
+            .forceCollide()
+            .radius((d) => {
+              if (d === root) {
+                return Math.random() * 500 + 10;
+              }
+              return d.r + 0.5;
+            })
+            .iterations(5)
+        )
+        .nodes(nodes)
+        .on("tick", ticked);
+
+      const svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("preserveAspectRatio", "xMidYMid meet");
+
+      window.addEventListener("resize", function () {
+        // Get new width and height
+        const newWidth = window.innerWidth;
+        const newHeight = Math.min(500, window.innerHeight);
+
+        // Update the SVG's viewbox
+        svg.attr("viewBox", `0 0 ${newWidth} ${newHeight}`);
+      });
+
+      const nodeCircles = svg
+        .selectAll("circle")
+        .data(nodes.slice(1))
+        .enter()
+        .append("circle")
+        .attr("r", function (d) {
+          return d.r;
+        })
+        .style("fill", function (d, i) {
+          return color(i % 3);
+        });
+
+      // Improved appearance and positioning of disease labels
+      // Add lines connecting circles to their labels
+
+      const textLabels = svg
+        .selectAll("text")
+        .data(nodes.slice(1))
+        .enter()
+        .append("text")
+        .attr("dx", function (d) {
+          return d.x;
+        })
+        .attr("dy", function (d) {
+          return d.y - d.r - 40;
+        }) // 40 units above the circle
+        .text(function (d) {
+          return d.name;
+        })
+        .attr("font-size", "8px")
+        .attr("font-weight", "100") // This will make the text thin
+        .attr("fill", "#fff")
+        .attr("text-anchor", "middle")
+        .style("font-family", "Poppins"); // Apply the Poppins font
+
+      // Add lines connecting circles to their labels
+      const lines = svg
+        .selectAll("line")
+        .data(nodes.slice(1))
+        .enter()
+        .append("line")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", "0px");
+
+      function ticked(e) {
+        svg
+          .selectAll("circle")
+          .attr("cx", function (d) {
+            return d.x;
+          })
+          .attr("cy", function (d) {
+            return d.y;
+          });
+
+        // Update line positions
+        lines
+          .attr("x1", function (d) {
+            return d.x;
+          })
+          .attr("y1", function (d) {
+            return d.y;
+          })
+          .attr("x2", function (d) {
+            // Calculate the angle
+            let angle = Math.atan2(d.y - height / 2, d.x - width / 2);
+            return d.x + Math.cos(angle) * (d.r + 10); // 30 units away from the circle
+          })
+          .attr("y2", function (d) {
+            // Calculate the angle
+            let angle = Math.atan2(d.y - height / 2, d.x - width / 2);
+            return d.y + Math.sin(angle) * (d.r + 10); // 30 units away from the circle
+          });
+
+        svg
+          .selectAll("text")
+          .attr("dx", function (d) {
+            // Calculate the angle
+            let angle = Math.atan2(d.y - height / 2, d.x - width / 2);
+            return d.x + Math.cos(angle) * (d.r + 40); // 40 units away from the circle
+          })
+          .attr("dy", function (d) {
+            // Calculate the angle
+            let angle = Math.atan2(d.y - height / 2, d.x - width / 2);
+            return d.y + Math.sin(angle) * (d.r + 40); // 40 units away from the circle
+          });
+        svg.on("mousemove", function () {
+          let p1 = d3.mouse(this);
+          root.fx = p1[0];
+          root.fy = p1[1];
+          force.alphaTarget(0.3).restart();
+        });
+      }
+
+      function handleMove(event) {
+        let p1;
+        if (event.type === "touchmove") {
+          p1 = [event.touches[0].clientX, event.touches[0].clientY];
+        } else {
+          p1 = d3.mouse(this);
+        }
+        root.fx = p1[0];
+        root.fy = p1[1];
+        force.alphaTarget(0.3).restart();
+      }
+
+      svg.dispatch(handleMove, {
+        clientX: 0,
+        clientY: 0,
+      });
+      svg.on("mousemove", handleMove);
+      svg.on("touchmove", handleMove);
+
+      function shuffleColor(n) {
+        d3.selectAll("circle")
+          .transition()
+          .duration(400)
+          .style("fill", (d, i) => color(i % n));
+      }
+
+      function shufleColorAndResize(n, min, max) {
+        d3.selectAll("circle")
+          .transition()
+          .duration(400)
+          .style("fill", (d, i) => color(i % n))
+          .attr("r", (d) => d.originalRadius + Math.random() * (max - min));
+      }
+
+      function colorize(color) {
+        d3.selectAll("circle")
+          .transition()
+          .duration(400)
+          .style("fill", (d, i) => color);
+      }
+
+      let slideNode = Array.prototype.slice
+        .call(window.parent.document.querySelectorAll("section"))
+        .filter((d) => d.className.includes("present"))[0];
+      let button = d3.select(slideNode).select("#recolorButton");
+
+      button.on("click", function () {
+        colorize("yellow");
+      });
+
+      var _transitions = [
+        {
+          transitionForward: () => shufleColorAndResize(10, 1, 1),
+          transitionBackward: () => shufleColorAndResize(3, 1, 1),
+          index: 0,
+        },
+        {
+          transitionForward: () => shufleColorAndResize(10, 0.1, 6),
+          index: 1,
+        },
+      ];
+    </script>
+  </body>
 </html>

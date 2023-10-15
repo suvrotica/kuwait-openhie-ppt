@@ -88,44 +88,7 @@
             Your browser does not support the video tag.
           </video>
         </section>
-        <section>
-          <pre>
-				<code class="language-plantuml">
-					@startuml
 
-					package "OpenHIE Architecture" {
-					
-					  package "Terminology Service (TS)" {
-						[ValueSets Database]
-						[Concept Maps Database]
-						[Care Services Registry]
-						[Location Resource]
-						[Practitioner Resource]
-						[PractitionerRole Resource]
-					  }
-					
-					  cloud "Point-of-Service (PoS)" {
-						[Query for Value Sets]
-						[Query for Concept Maps]
-					  }
-					
-					  [Query for Value Sets] --> [ValueSets Database] : "Retrieve ValueSets"
-					  [Query for Concept Maps] --> [Concept Maps Database] : "Retrieve Concept Maps"
-					  [Care Services Registry] --> [Location Resource]
-					  [Care Services Registry] --> [Practitioner Resource]
-					  [Care Services Registry] --> [PractitionerRole Resource]
-					
-					  note "Assumptions & Prerequisites:\n- Required ValueSets & Concept Maps are preloaded into TS.\n- PoS or other HIE components query TS for data." as Note1
-					  Note1 ..> [ValueSets Database]
-					  Note1 ..> [Concept Maps Database]
-					
-					}
-					
-					@enduml
-					
-				</code>
-				</pre>
-        </section>
         <section>
           <pre>
 				<code class="language-plantuml">
@@ -169,7 +132,7 @@
 
         <section
           class="fig-container"
-          data-file="d3/d3-fig/collision-detection.html"
+          data-file="d3/d3-fig/kuwait_diseases.html"
         ></section>
       </div>
     </div>
