@@ -277,6 +277,7 @@
       }
 
       function handleMove(event) {
+        event.preventDefault();
         let p1;
         if (event.type === "touchmove") {
           p1 = [event.touches[0].clientX, event.touches[0].clientY];
