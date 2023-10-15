@@ -33,18 +33,19 @@
       const width = window.innerWidth;
       const height = Math.min(500, window.innerHeight);
       const openHIEAssociatedTerms = [
+        "openHIE",
         "Terminology Services",
-        "OpenHIE Architecture",
-        "HIE's standards and definitions",
-        "OpenHIE Interoperability Layer Community",
-        "OHIE-IOL",
+        "Architecture",
+        "standards and definitions",
+        "Interoperability Layer Community",
+
         "interoperability between health information systems",
-        "Terminology Service",
+
         "clinical activities",
         "care delivery process",
         "metadata clearinghouse",
         "standardize medical terms",
-        "Terminology Server",
+
         "national and international standards",
         "OpenHIE community",
         "service oriented approach",
@@ -54,39 +55,35 @@
         "Open Health Information Exchange",
         "data reporting and exchange",
         "OpenHIE Health Worker Registry",
-        "CSD standard",
-        "iHRIS",
+
         "data aggregation",
-        "OpenHIE Facility Registry Implementation Guide",
+        "Facility Registry Implementation Guide",
         "technical specifications",
         "local context",
-        "OpenHIE community supports",
+
         "reusable architectural framework",
         "health information systems",
         "healthcare data",
-        "OpenHIE Terminology Service Call",
+
         "Open Concept Lab",
-        "OpenHIE Testing Harness",
+        "Testing Harness",
         "Test Framework",
         "Digital Square",
-        "CHT Interoperability with FHIR",
+        "Interoperability with FHIR",
         "Community Health Toolkit",
-        "Collaborating for Better Health Systems",
+
         "Medic",
-        "OpenHIE Health Worker Registry",
+        "Health Worker Registry",
         "iHRIS compliant",
-        "OpenHIE: Communities Building Open Standards",
-        "health information systems",
-        "OpenHIE Terminology Service",
-        "OpenHIE community collaborated",
+
         "metadata clearinghouse",
         "standardize medical terms",
-        "OpenHIE - Open Health News",
+        "Open Health News",
       ];
 
       const nNodes = openHIEAssociatedTerms.length;
       let nodes = d3.range(nNodes).map(function (i) {
-        let radius = Math.random() * 2 + 4;
+        let radius = Math.random() * 20 + 4;
         return {
           r: radius,
           originalRadius: radius,
@@ -97,7 +94,7 @@
       const root = nodes[0];
       const color = d3.scaleOrdinal().range(d3.schemeCategory20);
 
-      root.radius = 10;
+      root.radius = 0;
       root.fixed = true;
 
       const forceX = d3.forceX(width / 2).strength(0.025);
@@ -169,7 +166,7 @@
         .text(function (d) {
           return d.name;
         })
-        .attr("font-size", "8px")
+        .attr("font-size", "10px")
         .attr("font-weight", "100") // This will make the text thin
         .attr("fill", "#fff")
         .attr("text-anchor", "middle")
@@ -205,12 +202,12 @@
           .attr("x2", function (d) {
             // Calculate the angle
             let angle = Math.atan2(d.y - height / 2, d.x - width / 2);
-            return d.x + Math.cos(angle) * (d.r + 10); // 30 units away from the circle
+            return d.x + Math.cos(angle) * (d.r + 130); // 30 units away from the circle
           })
           .attr("y2", function (d) {
             // Calculate the angle
             let angle = Math.atan2(d.y - height / 2, d.x - width / 2);
-            return d.y + Math.sin(angle) * (d.r + 10); // 30 units away from the circle
+            return d.y + Math.sin(angle) * (d.r + 130); // 30 units away from the circle
           });
 
         svg
@@ -218,12 +215,12 @@
           .attr("dx", function (d) {
             // Calculate the angle
             let angle = Math.atan2(d.y - height / 2, d.x - width / 2);
-            return d.x + Math.cos(angle) * (d.r + 40); // 40 units away from the circle
+            return d.x + Math.cos(angle) * (d.r + 140); // 40 units away from the circle
           })
           .attr("dy", function (d) {
             // Calculate the angle
             let angle = Math.atan2(d.y - height / 2, d.x - width / 2);
-            return d.y + Math.sin(angle) * (d.r + 40); // 40 units away from the circle
+            return d.y + Math.sin(angle) * (d.r + 140); // 40 units away from the circle
           });
         svg.on("mousemove", function () {
           let p1 = d3.mouse(this);
