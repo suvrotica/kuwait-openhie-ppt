@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      body,
-      html {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-      }
+    <meta charset="utf-8" />
+    <script src="js/d3.v4.min.js"></script>
+    <script src="js/topojson.min.js"></script>
 
+    <style>
+      body {
+        margin: 0;
+      }
       svg {
-        display: block;
-        width: 100%;
-        height: auto;
+        cursor: move; /* fallback if grab cursor is unsupported */
+
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+        cursor: grab;
+      }
+      svg.dragging {
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+        cursor: grabbing;
       }
     </style>
   </head>
   <body>
-    <script src="js/d3.v4.min.js"></script>
-    <script src="js/versor-inertia.min.js"></script>
-
     <script>
       // Create a new link element
       var link = document.createElement("link");
