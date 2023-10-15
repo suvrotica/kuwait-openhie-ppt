@@ -20,6 +20,8 @@
   </head>
   <body>
     <script src="js/d3.v4.min.js"></script>
+    <script src="js/versor-inertia.min.js"></script>
+
     <script>
       // Create a new link element
       var link = document.createElement("link");
@@ -276,56 +278,7 @@
         });
       }
 
-      let isDragging = false;
-      let startPosition = null;
-
-      function handleStart(event) {
-        isDragging = false;
-
-        if (event.type === "touchstart") {
-          startPosition = [event.touches[0].clientX, event.touches[0].clientY];
-        } else {
-          startPosition = d3.mouse(this);
-        }
-
-        root.fx = startPosition[0];
-        root.fy = startPosition[1];
-      }
-
-      function handleMove(event) {
-        event.preventDefault();
-        isDragging = true;
-
-        let currentPosition;
-        if (event.type === "touchmove") {
-          currentPosition = [
-            event.touches[0].clientX,
-            event.touches[0].clientY,
-          ];
-        } else {
-          currentPosition = d3.mouse(this);
-        }
-
-        root.fx = currentPosition[0];
-        root.fy = currentPosition[1];
-        force.alphaTarget(0.3).restart();
-      }
-
-      function handleEnd(event) {
-        if (!isDragging && startPosition) {
-          // Handle tap or click action here
-        }
-        isDragging = false;
-        startPosition = null;
-      }
-
-      svg.on("mousedown", handleStart);
-      svg.on("mousemove", handleMove);
-      svg.on("mouseup", handleEnd);
-
-      svg.on("touchstart", handleStart);
-      svg.on("touchmove", handleMove);
-      svg.on("touchend", handleEnd);
+      var inertia = d3.geoInertiaDrag(svg, ticked);
 
       function shuffleColor(n) {
         d3.selectAll("circle")
