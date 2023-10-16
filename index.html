@@ -82,9 +82,54 @@
 			</textarea
           >
         </section>
-<section data-background-image="cmvs.webp">
-  <p>from one dictionary (icd9) to another (SNOMED) through a concept map burning FHIR (fire) </p>
+
+<section>
+          <pre>
+				<code class="language-plantuml">
+					@startuml
+
+package "Healthcare Interoperability" {
+
+  database "Relational DB" as RDB {
+    [ValueSets Table]
+    [ConceptMaps Table]
+  }
+
+  database "NoSQL DB" as NDB {
+    [ValueSets Collection]
+    [ConceptMaps Collection]
+  }
+
+  cloud "FHIR Server" as FHIR {
+    [ValueSets Endpoint]
+    [ConceptMaps Endpoint]
+    [Other FHIR Resources]
+  }
+
+  [RESTful API] as API
+  [Terminology Service] as TS
+  [Validation & Integrity Checks] as VIC
+  [User Interface] as UI
+  [Version Control] as VC
+
+  RDB --> API : Provides Data
+  NDB --> API : Provides Data
+  FHIR --> API : Provides FHIR Operations
+  API --> TS : Uses Terminologies
+  TS --> VIC : Undergoes Checks
+  UI --> API : Interacts with
+  VC --> RDB : Manages Versions
+  VC --> NDB : Manages Versions
+
+}
+
+@enduml
+
+
+</code>
+			</pre>
 </section>
+	      
         <section>
           <pre>
 				<code class="language-plantuml">
