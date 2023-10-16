@@ -87,42 +87,34 @@
 <section data-markdown class="uml-diagram">
           <textarea data-template>
                ```plantuml
-		  @startuml
-skinparam backgroundColor #EEEBDC
-skinparam packageBackgroundColor #FFEB3B
-skinparam rectangleBackgroundColor #FFFFFF
-skinparam arrowColor #333333
-skinparam classBorderColor #FF9800
-skinparam classBackgroundColor #FFEB3B
-
-package "OpenHIE Context Level" {
-  class "OpenHIE System" as openhie {
-    Purpose: Improve health of underserved
-    Approach: Service-oriented
-    Standards: Health information standards
-  }
-
-  rectangle "Functional Areas" {
-    (Patient Registration)
-    (Patient Information Management)
-    (Data Exchange)
-  }
-
-  rectangle "Stakeholders" {
-    (Healthcare Providers)
-    (Patients)
-    (System Administrators)
-  }
-
-  rectangle "Environment" {
-    (Deployment Environment)
-  }
-
-  openhie --> "Functional Areas" : covers
-  openhie --> "Stakeholders" : involves
-  openhie --> "Environment" : deployed in
+		  @@startuml
+skinparam packageStyle rectangle
+skinparam rectangle {
+  BackgroundColor<<FunctionalArea>> Yellow
+  BackgroundColor<<Stakeholder>> LightBlue
+  BackgroundColor<<Environment>> LightGreen
 }
+
+package "OpenHIE" {
+  [Purpose & Goals]
+  [Environment<<Environment>>]
+  [Stakeholders<<Stakeholder>>]
+  [Functional Areas<<FunctionalArea>>]
+}
+
+[Purpose & Goals] --> [Stakeholders]
+[Purpose & Goals] --> [Environment]
+[Purpose & Goals] --> [Functional Areas]
+
+rectangle "Functional Areas" as FA {
+  [Patient Registration]
+  [Patient Information Management]
+  [Data Exchange]
+}
+
+[Functional Areas] --> FA
 @enduml
+
                 ```
             </textarea
           >
