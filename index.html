@@ -29,7 +29,7 @@
 
     <!-- Native plugins of reveal.js -->
 
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/markdown/markdown.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/markdown/markdown.js"></script> -->
 
     <!-- Menu plugin -->
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
@@ -72,7 +72,7 @@
       <div class="slides">
         <section data-markdown>
           <textarea title="ta" data-template>
-			
+			<!-- .slide: data-fullscreen="true"  -->
 			  # KHIE
 
 			  ## Kuwait Health Information Exchange
@@ -83,9 +83,51 @@
           >
         </section>
 
+        <section data-markdown class="uml-diagram">
+          <textarea data-template>
+               ```plantuml
+               @startuml
+
+               package "OpenHIE Architecture Workflow" {
+     
+               package "Terminology Service (TS)" {
+                 [ValueSets Database]
+                 [Concept Maps Database]
+                 [Care Services Registry]
+                 [Location Resource]
+                 [Practitioner Resource]
+                 [PractitionerRole Resource]
+               }
+     
+               cloud "Point-of-Service (PoS)" {
+                 [Query for Value Sets]
+                 [Query for Concept Maps]
+               }
+     
+               [Query for Value Sets] --> [ValueSets Database] : "Retrieve ValueSets"
+               [Query for Concept Maps] --> [Concept Maps Database] : "Retrieve Concept Maps"
+     
+               note "ValueSet:\n- Represents a set of codes from one or more code systems.\n- Used to specify consistent codes for a context.\n- Codes can come from terminologies like SNOMED CT, ICD-10, etc.\n- Used in clinical decision support, data analytics, etc.\n- Ensures data consistency and interoperability." as Note1
+               Note1 ..> [ValueSets Database]
+     
+               note "ConceptMap in TS:\n- Stored as FHIR Resource.\n- Used for specific use-cases.\n- External systems & HIE components can query TS.\n- Example Query: 'What Concept Maps target SNOMED CT?'\n- Workflow is mature & supported by HL7 FHIR v3.0+.\n- Implements IHE IT Infrastructure Technical Framework." as Note2
+               Note2 ..> [Concept Maps Database]
+     
+               }
+     
+               footer "Suvro Ghosh October 2023 For Kuwait MoH"
+     
+               @enduml
+                ```
+            </textarea
+          >
+        </section>
+
         <section>
           <pre>
+            
 				<code class="language-plantuml">
+          
 					@startuml
 
 					package "OpenHIE Architecture Workflow" {
@@ -142,7 +184,16 @@
 
     <script>
       Reveal.initialize({
-        dependencies: [{ src: "//cdn.jsdelivr.net/npm/reveal-plantuml" }],
+        dependencies: [
+          {
+            src: "//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/marked.js",
+          },
+          {
+            src: "//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/markdown.js",
+          },
+          { src: "//cdn.jsdelivr.net/npm/reveal-plantuml" },
+        ],
+
         width: 1280,
         height: 900,
         // add other configuration parameters
@@ -178,7 +229,6 @@
 
         plugins: [
           Reveald3,
-          RevealMarkdown,
           RevealMenu,
           RevealChalkboard,
           RevealCustomControls,
@@ -188,5 +238,39 @@
         ],
       });
     </script>
+    <style>
+      .reveal section img {
+        margin: 0px 0px;
+        background: none;
+        border: none;
+        box-shadow: none;
+        max-width: 100%;
+        max-height: 100%;
+        min-width: 40%;
+        min-height: 40%;
+      }
+
+      .reveal section.uml-diagram img {
+        max-height: 110%;
+      }
+
+      .reveal section img.logo {
+        min-width: 25%;
+        min-height: 25%;
+      }
+
+      .reveal .controls,
+      .reveal .progress {
+        color: #4682b4;
+      }
+
+      .reveal pre {
+        font-size: 0.5em;
+      }
+
+      .reveal .slides {
+        margin-top: 0;
+      }
+    </style>
   </body>
 </html>
