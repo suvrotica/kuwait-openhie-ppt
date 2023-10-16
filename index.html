@@ -84,13 +84,6 @@
         </section>
 
         <section>
-          <video controls>
-            <source src="vid.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </section>
-
-        <section>
           <pre>
 				<code class="language-plantuml">
 					@startuml
@@ -135,14 +128,23 @@
           class="fig-container"
           data-file="d3/d3-fig/openhie_terms.html"
         ></section>
+        <section
+          data-background-video="vid.mp4"
+          data-background-size="cover"
+          data-background-video-loop
+        ></section>
+        <section
+          data-background-iframe="https://ohie.org/"
+          data-background-interactive
+        ></section>
       </div>
     </div>
 
     <script>
       Reveal.initialize({
         dependencies: [{ src: "//cdn.jsdelivr.net/npm/reveal-plantuml" }],
-
-        width: "100%",
+        width: 1280,
+        height: 900,
         // add other configuration parameters
         // ...
         // add menu plugin configuration
