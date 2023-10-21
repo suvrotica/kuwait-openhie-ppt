@@ -1,0 +1,80 @@
+{
+  "name": "OpenHIE",
+  "children": [
+    {
+      "name": "Context",
+      "children": [
+        {
+          "name": "Stakeholders",
+          "children": [
+            {
+              "name": "Healthcare Providers",
+              "value": 5000,
+              "children": [
+                { "name": "Physicians", "value": 2000 },
+                { "name": "Nurses", "value": 1500 },
+                { "name": "Mental Health Professionals", "value": 800 },
+                { "name": "Allied Health Professionals", "value": 700 },
+                {
+                  "name": "Dentists and Oral Health Professionals",
+                  "value": 100
+                },
+                { "name": "Pharmacists and Pharmacy Technicians", "value": 900 }
+              ]
+            },
+            { "name": "Laboratories", "value": 4000 },
+            { "name": "Pharmacies", "value": 3500 },
+            { "name": "Patients", "value": 6000 },
+            {
+              "name": "Health Information Exchange (HIE) Organizations",
+              "value": 7000
+            },
+            { "name": "Public Health Agencies", "value": 7500 },
+            { "name": "Health Insurance Companies", "value": 7200 },
+            {
+              "name": "Health Information Technology (HIT) Vendors",
+              "value": 7300
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Container",
+      "children": [
+        {
+          "name": "Interoperability Layer",
+          "children": [
+            { "name": "Shared Health Record", "value": 8000 },
+            { "name": "Health Worker Registry", "value": 7000 },
+            { "name": "Client Registry", "value": 7500 },
+            { "name": "Facility Registry", "value": 6500 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Component",
+      "children": [
+        {
+          "name": "Services",
+          "children": [
+            { "name": "Authentication Service", "value": 9000 },
+            { "name": "Data Exchange Service", "value": 8500 },
+            { "name": "Notification Service", "value": 8200 },
+            { "name": "Logging Service", "value": 8300 }
+          ]
+        },
+        {
+          "name": "Databases",
+          "children": [
+            { "name": "Clinical Data", "value": 7800 },
+            { "name": "Patient Data", "value": 7900 },
+            { "name": "Facility Data", "value": 7700 },
+            { "name": "Health Worker Data", "value": 7600 }
+          ]
+        }
+      ]
+    }
+  ]
+}

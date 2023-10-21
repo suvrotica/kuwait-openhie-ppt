@@ -1,0 +1,56 @@
+{
+  "name": "OpenHIE",
+  "children": [
+    {
+      "name": "Context",
+      "children": [
+        {
+          "name": "External Systems",
+          "children": [
+            { "name": "Healthcare Providers", "value": 5000 },
+            { "name": "Laboratories", "value": 4000 },
+            { "name": "Pharmacies", "value": 3500 },
+            { "name": "Patients", "value": 6000 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Container",
+      "children": [
+        {
+          "name": "Interoperability Layer",
+          "children": [
+            { "name": "Shared Health Record", "value": 8000 },
+            { "name": "Health Worker Registry", "value": 7000 },
+            { "name": "Client Registry", "value": 7500 },
+            { "name": "Facility Registry", "value": 6500 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Component",
+      "children": [
+        {
+          "name": "Services",
+          "children": [
+            { "name": "Authentication Service", "value": 9000 },
+            { "name": "Data Exchange Service", "value": 8500 },
+            { "name": "Notification Service", "value": 8200 },
+            { "name": "Logging Service", "value": 8300 }
+          ]
+        },
+        {
+          "name": "Databases",
+          "children": [
+            { "name": "Clinical Data", "value": 7800 },
+            { "name": "Patient Data", "value": 7900 },
+            { "name": "Facility Data", "value": 7700 },
+            { "name": "Health Worker Data", "value": 7600 }
+          ]
+        }
+      ]
+    }
+  ]
+}
