@@ -10,7 +10,8 @@ Click a black node to expand or collapse [the tree](/@d3/tidy-tree).
 
 function _chart(d3, data) {
   // Specify the charts’ dimensions. The height is variable, depending on the layout.
-  const width = 1200;
+  const width = window.innerWidth || 928;
+  const height = window.innerHeight || 500;
 
   const marginTop = 10;
   const marginRight = 10;
@@ -39,7 +40,7 @@ function _chart(d3, data) {
     .attr("viewBox", [-marginLeft, -marginTop, width, dx])
     .attr(
       "style",
-      "max-width: 100%; height: auto; font: 12px sans-serif; user-select: none;"
+      "max-width: 100%; height: auto; font: 16px sans-serif; user-select: none;"
     );
 
   const gLink = svg
@@ -100,6 +101,16 @@ function _chart(d3, data) {
     // Rest of the code remains the same.
     // ...
   }
+  window.addEventListener("resize", function () {
+    // Update width and height
+    const width = window.innerWidth || 928;
+    const height = window.innerHeight || 500;
+
+    // Update SVG dimensions
+    svg.attr("width", width).attr("height", height);
+
+    // You may also need to update other parts of your chart here
+  });
 
   function update(event, source) {
     const duration = event?.altKey ? 2500 : 250; // hold the alt key to slow down the transition
