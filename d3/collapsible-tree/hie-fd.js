@@ -39,7 +39,7 @@ function _chart(d3, data) {
     .attr("viewBox", [-marginLeft, -marginTop, width, dx])
     .attr(
       "style",
-      "max-width: 100%; height: auto; font: 16px sans-serif; user-select: none;"
+      "max-width: 100%; height: auto; font: 20px sans-serif; user-select: none;"
     );
 
   const gLink = svg
