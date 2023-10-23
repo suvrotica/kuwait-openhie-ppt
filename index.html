@@ -66,8 +66,27 @@
 
     <!-- d3 -->
     <script src="d3/reveald3.js"></script>
+
+    <script src="https://unpkg.com/plantuml-encoder/dist/plantuml-encoder.min.js"></script>
   </head>
   <body>
+    <script>
+      function renderPlantUML(plantumlCode, targetElementId) {
+        const plantumlServer = "http://www.plantuml.com/plantuml/svg/";
+        const encodedPlantUML = plantumlEncoder.encode(plantumlCode);
+        const imageUrl = plantumlServer + encodedPlantUML;
+
+        // Create an img element
+        const imgElement = document.createElement("img");
+        imgElement.src = imageUrl;
+
+        // Append the img element to the target element
+        const targetElement = document.getElementById(targetElementId);
+        targetElement.innerHTML = ""; // Clear any existing content
+        targetElement.appendChild(imgElement);
+      }
+    </script>
+
     <div class="reveal">
       <div class="slides">
         <section data-markdown>
@@ -82,9 +101,46 @@
 			</textarea
           >
         </section>
+        <section id="plantumlSection1">
+          <!-- The SVG for the first diagram will be inserted here -->
+          <script>
+            const plantUMLCode1 = `
+            @startuml
+left to right direction
+skinparam packageStyle rectangle
 
+actor "Primary Care Physician" as PCP
+actor Specialist
+actor Nurse
+actor Technician
+actor "Public Health Practitioner" as PHP
+actor "Community Health Worker" as CHW
+actor "Health System Management Personnel" as HSMP
 
-<section data-markdown class="uml-diagram">
+rectangle "Patient's Health Information" as PHI {
+  (View Patient Information) as ViewInfo
+  (Update Patient Information) as UpdateInfo
+  (Analyze Patient Data) as AnalyzeData
+}
+
+PCP --> ViewInfo
+PCP --> UpdateInfo
+Specialist --> ViewInfo
+Specialist --> UpdateInfo
+Nurse --> ViewInfo
+Technician --> ViewInfo
+PHP --> AnalyzeData
+CHW --> ViewInfo
+HSMP --> AnalyzeData
+
+@enduml
+
+              `;
+            renderPlantUML(plantUMLCode1, "plantumlSection1");
+          </script>
+        </section>
+
+        <section data-markdown class="uml-diagram">
           <textarea data-template>
                ```plantuml
 		  @startuml
@@ -119,8 +175,6 @@ rectangle "Functional Areas" as FA {
             </textarea
           >
         </section>
-
-	      
 
         <section data-markdown class="uml-diagram">
           <textarea title="md1" data-template>

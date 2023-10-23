@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlantUML Renderer</title>
+    <script src="https://unpkg.com/plantuml-encoder/dist/plantuml-encoder.min.js"></script>
+    <style>
+      /* Add any CSS styling here */
+      #svgContainer {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="svgContainer"></div>
+
+    <script>
+      const plantumlCode = `
+    @startuml
+    left to right direction
+    skinparam packageStyle rectangle
+
+    actor "Primary Care Physician" as PCP
+    actor Specialist
+    actor Nurse
+    actor Technician
+    actor "Public Health Practitioner" as PHP
+    actor "Community Health Worker" as CHW
+    actor "Health System Management Personnel" as HSMP
+
+    rectangle "Patient's Health Information" as PHI {
+      (View Patient Information) as ViewInfo
+      (Update Patient Information) as UpdateInfo
+      (Analyze Patient Data) as AnalyzeData
+    }
+
+    PCP --> ViewInfo
+    PCP --> UpdateInfo
+    Specialist --> ViewInfo
+    Specialist --> UpdateInfo
+    Nurse --> ViewInfo
+    Technician --> ViewInfo
+    PHP --> AnalyzeData
+    CHW --> ViewInfo
+    HSMP --> AnalyzeData
+
+    @enduml
+    `;
+
+      const encoded = plantumlEncoder.encode(plantumlCode);
+      const plantumlServer = "http://www.plantuml.com/plantuml/svg/";
+      const imageUrl = plantumlServer + encoded;
+
+      fetch(imageUrl)
+        .then((response) => response.text())
+        .then((svg) => {
+          // Insert the SVG into the DOM
+          document.getElementById("svgContainer").innerHTML = svg;
+        })
+        .catch((error) => {
+          console.error("Error fetching SVG:", error);
+        });
+    </script>
+  </body>
+</html>
