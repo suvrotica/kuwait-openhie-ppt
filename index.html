@@ -85,9 +85,23 @@
         targetElement.innerHTML = ""; // Clear any existing content
         targetElement.appendChild(imgElement);
       }
+
+      function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        }
+      }
     </script>
 
     <div class="reveal">
+      <button class="fullscreen-btn" onclick="toggleFullScreen()">
+        Fullscreen
+      </button>
+
       <div class="slides">
         <section data-markdown>
           <textarea title="ta" data-template>
@@ -357,6 +371,25 @@ rectangle "Functional Areas" as FA {
       .fullWidthImage {
         width: auto;
         height: 80%;
+      }
+
+      .fullscreen-btn {
+        position: absolute;
+        top: 10px; /* Adjusted from bottom to top */
+        right: 10px;
+        padding: 8px 12px;
+        background-color: rgba(0, 0, 0, 0.6); /* semi-transparent black */
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        z-index: 1000; /* ensure it's above other elements */
+        transition: background-color 0.3s ease;
+      }
+
+      .fullscreen-btn:hover {
+        background-color: rgba(0, 0, 0, 0.8); /* slightly darker on hover */
       }
     </style>
   </body>
