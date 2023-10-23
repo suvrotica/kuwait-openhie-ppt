@@ -79,7 +79,7 @@
         // Create an img element
         const imgElement = document.createElement("img");
         imgElement.src = imageUrl;
-
+        imgElement.classList.add("fullWidthImage");
         // Append the img element to the target element
         const targetElement = document.getElementById(targetElementId);
         targetElement.innerHTML = ""; // Clear any existing content
@@ -240,8 +240,8 @@ rectangle "Functional Areas" as FA {
           { src: "//cdn.jsdelivr.net/npm/reveal-plantuml" },
         ],
 
-        width: 1280,
-        height: 900,
+        width: window.innerWidth,
+        height: window.innerHeight,
         // add other configuration parameters
         // ...
         // add menu plugin configuration
@@ -283,6 +283,12 @@ rectangle "Functional Areas" as FA {
           // ...
         ],
       });
+      window.addEventListener("resize", function () {
+        Reveal.configure({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      });
     </script>
     <style>
       .reveal section img {
@@ -316,6 +322,11 @@ rectangle "Functional Areas" as FA {
 
       .reveal .slides {
         margin-top: 0;
+      }
+
+      .fullWidthImage {
+        width: auto;
+        height: 100%;
       }
     </style>
   </body>
