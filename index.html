@@ -106,9 +106,38 @@
           <script>
             const plantUMLCode1 = `
             @startuml
+
+
+' Direction
 left to right direction
+
+' Title
+title Use Case Diagram - A Fragmented Reality
+skinparam titleFontSize 30
+
+
+' Package Style
 skinparam packageStyle rectangle
 
+' Actor Styles
+skinparam actorBorderColor black
+skinparam actorBackgroundColor #A9DCDF
+skinparam actorFontColor black
+skinparam actorFontSize 16
+
+
+' Rectangle Styles
+skinparam rectangleBorderColor black
+skinparam rectangleBackgroundColor #FEFECE
+skinparam rectangleFontColor black
+skinparam rectangleFontSize 16
+skinparam rectangleFontName Roboto
+
+' Arrow Styles
+skinparam arrowColor black
+skinparam arrowThickness 1.5
+
+' Diagram Elements
 actor "Primary Care Physician" as PCP
 actor Specialist
 actor Nurse
@@ -117,25 +146,26 @@ actor "Public Health Practitioner" as PHP
 actor "Community Health Worker" as CHW
 actor "Health System Management Personnel" as HSMP
 
+
 rectangle "Patient's Health Information" as PHI {
   (View Patient Information) as ViewInfo
   (Update Patient Information) as UpdateInfo
   (Analyze Patient Data) as AnalyzeData
 }
 
-PCP --> ViewInfo
-PCP --> UpdateInfo
-Specialist --> ViewInfo
-Specialist --> UpdateInfo
-Nurse --> ViewInfo
-Technician --> ViewInfo
-PHP --> AnalyzeData
-CHW --> ViewInfo
-HSMP --> AnalyzeData
+PCP -down-> ViewInfo
+PCP -down-> UpdateInfo
+Specialist -down-> ViewInfo
+Specialist -down-> UpdateInfo
+Nurse -up-> ViewInfo
+Technician -up-> ViewInfo
+PHP -up-> AnalyzeData
+CHW -down-> ViewInfo
+HSMP -up-> AnalyzeData
 
 @enduml
 
-              `;
+`;
             renderPlantUML(plantUMLCode1, "plantumlSection1");
           </script>
         </section>
